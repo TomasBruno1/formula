@@ -41,46 +41,25 @@ public class Variable implements Function {
         this.altOperand = altOperand;
     }
 
-    @Override
-    public Double solve() {
-        if(altOperand == null) return value;
+    public String getName() {
+        return name;
+    }
 
-        switch (altOperand){
-            case ABS:
-                return Math.abs(value);
-            case SQRT:
-                return Math.sqrt(value);
-        }
-
+    public Double getValue() {
         return value;
     }
 
-    @Override
-    public String print() {
-        if(value.isNaN()) {
-            if(altOperand == Operand.SQRT) return String.format("%s(%s)", altOperand.getString(), name);
-            if(altOperand == Operand.ABS) return String.format("%s%s%s", altOperand.getString(), name, altOperand.getString());
-            return name;
-        }
-        if(altOperand == Operand.SQRT) return String.format("%s(%s)", altOperand.getString(), new DecimalFormat("#.##").format(value));
-        if(altOperand == Operand.ABS) return String.format("%s%s%s", altOperand.getString(), new DecimalFormat("#.##").format(value), altOperand.getString());
-        return new DecimalFormat("#.##").format(value);
-    }
-
-    @Override
-    public List<String> getVariableNames() {
-        List<String> result = new ArrayList<>();
-        if(name != null) result.add(name);
-        return result;
-    }
-
-    @Override
-    public void addVariableNames(List<String> result) {
-        if(name != null) result.add(name);
+    public Operand getAltOperand() {
+        return altOperand;
     }
 
     @Override
     public boolean isComposite() {
         return false;
+    }
+
+    @Override
+    public void accept(FunctionVisitor visitor) {
+        visitor.visitVariable(this);
     }
 }

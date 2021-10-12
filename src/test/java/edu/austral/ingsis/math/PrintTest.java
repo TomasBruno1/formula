@@ -15,7 +15,10 @@ public class PrintTest {
         Function function = new Expression(new Variable(1), new Variable(6), Operand.SUM);
 
         final String expected = "1 + 6";
-        final String result = function.print();
+
+        PrintVisitor printer = new PrintVisitor();
+        function.accept(printer);
+        final String result = printer.result;
 
         assertThat(result, equalTo(expected));
     }
@@ -28,7 +31,10 @@ public class PrintTest {
         Function function = new Expression(new Variable(12), new Variable(2), Operand.DIV);
 
         final String expected = "12 / 2";
-        final String result = function.print();
+
+        PrintVisitor printer = new PrintVisitor();
+        function.accept(printer);
+        final String result = printer.result;
 
         assertThat(result, equalTo(expected));
     }
@@ -41,7 +47,10 @@ public class PrintTest {
         Function function = new Expression(new Expression(new Variable(9), new Variable(2), Operand.DIV), new Variable(3), Operand.MUL);
 
         final String expected = "(9 / 2) * 3";
-        final String result = function.print();
+
+        PrintVisitor printer = new PrintVisitor();
+        function.accept(printer);
+        final String result = printer.result;
 
         assertThat(result, equalTo(expected));
     }
@@ -54,7 +63,10 @@ public class PrintTest {
         Function function = new Expression(new Expression(new Variable(27), new Variable(6), Operand.DIV), new Variable(2), Operand.POW);
 
         final String expected = "(27 / 6) ^ 2";
-        final String result = function.print();
+
+        PrintVisitor printer = new PrintVisitor();
+        function.accept(printer);
+        final String result = printer.result;
 
         assertThat(result, equalTo(expected));
     }
@@ -67,7 +79,10 @@ public class PrintTest {
         Function function = new Expression(new Variable("value", Double.NaN, Operand.ABS), new Variable(8), Operand.SUB);
 
         final String expected = "|value| - 8";
-        final String result = function.print();
+
+        PrintVisitor printer = new PrintVisitor();
+        function.accept(printer);
+        final String result = printer.result;
 
         assertThat(result, equalTo(expected));
     }
@@ -80,7 +95,10 @@ public class PrintTest {
         Function function = new Expression(new Variable("value", Double.NaN, Operand.ABS), new Variable(8), Operand.SUB);
 
         final String expected = "|value| - 8";
-        final String result = function.print();
+
+        PrintVisitor printer = new PrintVisitor();
+        function.accept(printer);
+        final String result = printer.result;
 
         assertThat(result, equalTo(expected));
     }
@@ -93,7 +111,10 @@ public class PrintTest {
         Function function = new Expression(new Expression(new Variable(5), new Variable("i"), Operand.SUB), new Variable(8), Operand.MUL);
 
         final String expected = "(5 - i) * 8";
-        final String result = function.print();
+
+        PrintVisitor printer = new PrintVisitor();
+        function.accept(printer);
+        final String result = printer.result;
 
         assertThat(result, equalTo(expected));
     }
@@ -106,7 +127,10 @@ public class PrintTest {
         Function function = new Expression(new Expression(new Variable("x"), new Variable(1), Operand.SUB, Operand.SQRT), new Variable(5), Operand.MUL);
 
         final String expected = "(sqrt(x - 1)) * 5";
-        final String result = function.print();
+
+        PrintVisitor printer = new PrintVisitor();
+        function.accept(printer);
+        final String result = printer.result;
 
         assertThat(result, equalTo(expected));
     }

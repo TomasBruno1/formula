@@ -19,7 +19,10 @@ public class ListVariablesTest {
     public void shouldListVariablesFunction1() {
         Function function = new Expression(new Variable(1), new Variable(6), Operand.SUM);
 
-        final List<String> result = function.getVariableNames();
+        VariableVisitor variableVisitor = new VariableVisitor();
+        function.accept(variableVisitor);
+
+        final List<String> result = variableVisitor.result;
 
         assertThat(result, empty());
     }
@@ -31,7 +34,10 @@ public class ListVariablesTest {
     public void shouldListVariablesFunction2() {
         Function function = new Expression(new Variable(12), new Variable("div"), Operand.DIV);
 
-        final List<String> result = function.getVariableNames();
+        VariableVisitor variableVisitor = new VariableVisitor();
+        function.accept(variableVisitor);
+
+        final List<String> result = variableVisitor.result;
 
         assertThat(result, containsInAnyOrder("div"));
     }
@@ -43,7 +49,10 @@ public class ListVariablesTest {
     public void shouldListVariablesFunction3() {
         Function function = new Expression(new Expression(new Variable(9), new Variable("x"), Operand.DIV), new Variable("y"), Operand.MUL);
 
-        final List<String> result = function.getVariableNames();
+        VariableVisitor variableVisitor = new VariableVisitor();
+        function.accept(variableVisitor);
+
+        final List<String> result = variableVisitor.result;
 
         assertThat(result, containsInAnyOrder("x", "y"));
     }
@@ -55,7 +64,10 @@ public class ListVariablesTest {
     public void shouldListVariablesFunction4() {
         Function function = new Expression(new Expression(new Variable(27), new Variable("a"), Operand.DIV, null), new Variable("b"), Operand.POW);
 
-        final List<String> result = function.getVariableNames();
+        VariableVisitor variableVisitor = new VariableVisitor();
+        function.accept(variableVisitor);
+
+        final List<String> result = variableVisitor.result;
 
         assertThat(result, containsInAnyOrder("a", "b"));
     }
@@ -67,7 +79,10 @@ public class ListVariablesTest {
     public void shouldListVariablesFunction5() {
         Function function = new Expression(new Variable("z"), new Expression(new Variable(1), new Variable(2), Operand.DIV), Operand.POW);
 
-        final List<String> result = function.getVariableNames();
+        VariableVisitor variableVisitor = new VariableVisitor();
+        function.accept(variableVisitor);
+
+        final List<String> result = variableVisitor.result;
 
         assertThat(result, containsInAnyOrder("z"));
     }
@@ -79,7 +94,10 @@ public class ListVariablesTest {
     public void shouldListVariablesFunction6() {
         Function function = new Expression(new Variable("value", 8, Operand.ABS), new Variable(8), Operand.SUB);
 
-        final List<String> result = function.getVariableNames();
+        VariableVisitor variableVisitor = new VariableVisitor();
+        function.accept(variableVisitor);
+
+        final List<String> result = variableVisitor.result;
 
         assertThat(result, containsInAnyOrder("value"));
     }
@@ -91,7 +109,10 @@ public class ListVariablesTest {
     public void shouldListVariablesFunction7() {
         Function function = new Expression(new Variable("value", 8, Operand.ABS), new Variable(8), Operand.SUB);
 
-        final List<String> result = function.getVariableNames();
+        VariableVisitor variableVisitor = new VariableVisitor();
+        function.accept(variableVisitor);
+
+        final List<String> result = variableVisitor.result;
 
         assertThat(result, containsInAnyOrder("value"));
     }
@@ -103,7 +124,10 @@ public class ListVariablesTest {
     public void shouldListVariablesFunction8() {
         Function function = new Expression(new Expression(new Variable(5), new Variable("i"), Operand.SUB), new Variable(8), Operand.MUL);
 
-        final List<String> result = function.getVariableNames();
+        VariableVisitor variableVisitor = new VariableVisitor();
+        function.accept(variableVisitor);
+
+        final List<String> result = variableVisitor.result;
 
         assertThat(result, containsInAnyOrder("i"));
     }
@@ -115,7 +139,10 @@ public class ListVariablesTest {
     public void shouldResolveSimpleFunction9() {
         Function function = new Expression(new Expression(new Variable("x"), new Variable(1), Operand.SUB, Operand.SQRT), new Variable("y"), Operand.MUL);
 
-        final List<String> result = function.getVariableNames();
+        VariableVisitor variableVisitor = new VariableVisitor();
+        function.accept(variableVisitor);
+
+        final List<String> result = variableVisitor.result;
 
         assertThat(result, containsInAnyOrder("x", "y"));
     }
