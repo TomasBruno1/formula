@@ -13,7 +13,9 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction1() {
-        final Double result = 4d;
+        Function function = new Expression(new Variable(1), new Variable("x", 3), Operand.SUM);
+
+        final Double result = function.solve();
 
         assertThat(result, equalTo(4d));
     }
@@ -23,7 +25,9 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction2() {
-        final Double result = 3d;
+        Function function = new Expression(new Variable(12), new Variable("div", 4), Operand.DIV);
+
+        final Double result = function.solve();
 
         assertThat(result, equalTo(3d));
     }
@@ -33,7 +37,9 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction3() {
-        final Double result = 12d;
+        Function function = new Expression(new Expression(new Variable(9), new Variable("x", 3), Operand.DIV), new Variable("y", 4), Operand.MUL);
+
+        final Double result = function.solve();
 
         assertThat(result, equalTo(12d));
     }
@@ -43,7 +49,9 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction4() {
-        final Double result = 27d;
+        Function function = new Expression(new Expression(new Variable(27), new Variable("a", 9), Operand.DIV), new Variable("b", 3), Operand.POW);
+
+        final Double result = function.solve();
 
         assertThat(result, equalTo(27d));
     }
@@ -53,7 +61,9 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction5() {
-        final Double result = 6d;
+        Function function = new Expression(new Variable("z", 36), new Expression(new Variable(1), new Variable(2), Operand.DIV), Operand.POW);
+
+        final Double result = function.solve();
 
         assertThat(result, equalTo(6d));
     }
@@ -63,17 +73,21 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction6() {
-        final Double result = 0d;
+        Function function = new Expression(new Variable("value", 8, Operand.ABS), new Variable(8), Operand.SUB);
+
+        final Double result = function.solve();
 
         assertThat(result, equalTo(0d));
     }
 
     /**
-     * Case |value| - 8 where value = 8
+     * Case |value| - 8 where value = -8
      */
     @Test
     public void shouldResolveFunction7() {
-        final Double result = 0d;
+        Function function = new Expression(new Variable("value", -8, Operand.ABS), new Variable(8), Operand.SUB);
+
+        final Double result = function.solve();
 
         assertThat(result, equalTo(0d));
     }
@@ -83,8 +97,22 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction8() {
-        final Double result = 24d;
+        Function function = new Expression(new Expression(new Variable(5), new Variable("i", 2), Operand.SUB), new Variable(8), Operand.MUL);
+
+        final Double result = function.solve();
 
         assertThat(result, equalTo(24d));
+    }
+
+    /**
+     * Case (sqrt(x - 1)) * 5 where x = 10
+     */
+    @Test
+    public void shouldResolveSimpleFunction9() {
+        Function function = new Expression(new Expression(new Variable("x", 10), new Variable(1), Operand.SUB, Operand.SQRT), new Variable(5), Operand.MUL);
+
+        final Double result = function.solve();
+
+        assertThat(result, equalTo(15d));
     }
 }
